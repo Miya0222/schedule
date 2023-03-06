@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">時間割</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tv_schedule_edit">編集画面</string>
+    <string name="tv_weekday">曜日</string>
+    <string name="tv_time">時間</string>
+    <string name="tv_subject">教科</string>
+    <string name="tv_room">教室</string>
+    <string name="tv_things">持ち物</string>
+    <string name="bt_regist">登録</string>
+    <string name="bt_back">戻る</string>
+    <string name="menu_all_clear">時間割を全て削除</string>
+    <string name="menu_time_pick">授業開始時間設定</string>
+    <string name="dialog_title">確認</string>
+    <string name="dialog_msg">時間割をすべて削除しますか？削除するならYES。削除しないならNO。</string>
+    <string name="dialog_btn_yes">YES</string>
+    <string name="dialog_btn_no">NO</string>
+    <string name="notification_channel_name">スケジュール管理</string>
+    <string name="tv_monday">月</string>
+    <string name="tv_tuesday">火</string>
+    <string name="tv_wednesday">水</string>
+    <string name="tv_thursday">木</string>
+    <string name="tv_friday">金</string>
+    <string name="tv_item_first">1</string>
+    <string name="tv_item_second">2</string>
+    <string name="tv_item_fourth">4</string>
+    <string name="tv_item_third">3</string>
+    <string name="tv_item_fifth">5</string>
+    <string name="tv_item_sixth">6</string>
+    <string name="tv_item_seventh">7</string>
+    <string-array name="sp_weekday">
+        <item>月曜日</item>
+        <item>火曜日</item>
+        <item>水曜日</item>
+        <item>木曜日</item>
+        <item>金曜日</item>
+    </string-array>
+    <string-array name="sp_time">
+        <item>1時間目</item>
+        <item>2時間目</item>
+        <item>3時間目</item>
+        <item>4時間目</item>
+        <item>5時間目</item>
+        <item>6時間目</item>
+        <item>7時間目</item>
+    </string-array>
+</resources>
