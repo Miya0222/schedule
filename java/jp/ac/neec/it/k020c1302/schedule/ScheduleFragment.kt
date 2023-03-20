@@ -1,24 +1,16 @@
 package jp.ac.neec.it.k020c1302.schedule
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import jp.ac.neec.it.k020c1302.schedule.databinding.FragmentScheduleBinding
-import java.util.Calendar
+
 
 class ScheduleFragment : Fragment() {
     //View Bindingを使うために宣言
     private var _binding: FragmentScheduleBinding? = null
     private val binding get() = _binding!!
-
-    companion object{
-        //通知チャンネルID
-        private const val CHANNEL_ID = "schedule_notification_channel"
-    }
 
     //フラグメントを構築中にプロパティが初期化されてしまうため、この場所でDBヘルパーの生成ができない。そのため、DBヘルパーの生成をcreateViewまで遅延させる
     private lateinit var _helper: DatabaseHelper
@@ -29,6 +21,12 @@ class ScheduleFragment : Fragment() {
         //インフレートでxmlレイアウトのviewリソースを利用できるようになる
         _binding = FragmentScheduleBinding.inflate(inflater, container,false)
 
+        //オプションメニューを有効化
+        setHasOptionsMenu(true)
+
+        val serviceIntent = Intent(requireActivity(), NotificationService::class.java)
+        requireActivity().startService(serviceIntent)
+
         //bindingクラスのrootにアクセスできるようにする
         return binding.root
     }
@@ -38,6 +36,21 @@ class ScheduleFragment : Fragment() {
         //各時間のオブジェクトを取得しクリックリスナーを設定
         listenerSet()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        //メニューを表示する
+        inflater.inflate(R.menu.timepick, menu)
+        menu.findItem(R.id.menuTimePick).isVisible = true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        //インテントオブジェクトを生成
+        val intent2TimeEditActivity = Intent(activity, TimeEditActivity::class.java)
+        startActivity(intent2TimeEditActivity)
+        return true
+    }
+
     private inner class ClickListener : View.OnClickListener{
         override fun onClick(view: View) {
             //インテントオブジェクトを生成
@@ -93,18 +106,6 @@ class ScheduleFragment : Fragment() {
         //ヘルパーオブジェクト解放
         _helper.close()
         super.onDestroyView()
-    }
-
-    //これ使うかは保留
-    private fun scheduleNotification(context: Context, notificationTime: Calendar){
-        //AlarmManagerオブジェクトを取得
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        //NotificationReceiverクラスにアクションを設定したIntentを生成
-        val intent = Intent(context, NotificationReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        //AlarmManagerを使用して通知をスケジュール
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, notificationTime.timeInMillis, pendingIntent)
     }
 
     //可読性が下がるため関数化

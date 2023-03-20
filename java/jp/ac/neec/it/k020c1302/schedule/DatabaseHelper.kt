@@ -14,19 +14,11 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-        val sb = StringBuilder()
-        sb.append("CREATE TABLE schedule (")
-        sb.append("_id INTEGER PRIMARY KEY,")
-        sb.append("weekday TEXT,")
-        sb.append("time TEXT,")
-        sb.append("subject TEXT,")
-        sb.append("room TEXT,")
-        sb.append("things TEXT")
-        sb.append(");")
-        val sql = sb.toString()
-
+        val sqlSchedule = "CREATE TABLE schedule (_id INTEGER PRIMARY KEY, weekday TEXT, time TEXT, subject TEXT, room TEXT, things TEXT);"
+        val sqlTime = "CREATE TABLE time (_id INTEGER PRIMARY KEY, time TEXT, hour INTEGER, minute INTEGER, notify INTEGER);"
         //実行
-        db.execSQL(sql)
+        db.execSQL(sqlSchedule)
+        db.execSQL(sqlTime)
         initDataSet(db)
     }
 
@@ -68,6 +60,12 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME,
         db.execSQL("INSERT INTO schedule (_id, weekday, time, subject, room, things) VALUES (33, 'friday', 'fifth', '', '', '')")
         db.execSQL("INSERT INTO schedule (_id, weekday, time, subject, room, things) VALUES (34, 'friday', 'sixth', '', '', '')")
         db.execSQL("INSERT INTO schedule (_id, weekday, time, subject, room, things) VALUES (35, 'friday', 'seventh', '', '', '')")
-
+        db.execSQL("INSERT INTO time (_id, time, hour, minute, notify) VALUES (1, 'first', 9, 0, 0)")
+        db.execSQL("INSERT INTO time (_id, time, hour, minute, notify) VALUES (2, 'second', 10, 0, 0)")
+        db.execSQL("INSERT INTO time (_id, time, hour, minute, notify) VALUES (3, 'third', 11, 0, 0)")
+        db.execSQL("INSERT INTO time (_id, time, hour, minute, notify) VALUES (4, 'fourth', 13, 0, 0)")
+        db.execSQL("INSERT INTO time (_id, time, hour, minute, notify) VALUES (5, 'fifth', 14, 0, 0)")
+        db.execSQL("INSERT INTO time (_id, time, hour, minute, notify) VALUES (6, 'sixth', 15, 0, 0)")
+        db.execSQL("INSERT INTO time (_id, time, hour, minute, notify) VALUES (7, 'seventh', 16, 0, 0)")
     }
 }

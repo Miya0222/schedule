@@ -1,6 +1,5 @@
 package jp.ac.neec.it.k020c1302.schedule
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -49,7 +48,6 @@ class ScheduleEditFragment : Fragment(),DataPassListener {
         super.onViewCreated(view, savedInstanceState)
         //ボタンのリスナ設定
         binding.btRegist.setOnClickListener(ClickListener())
-        binding.btBack.setOnClickListener(ClickListener())
         //スピナーのリスナ設定
         binding.spWeekday.onItemSelectedListener = SpinnerListener()
         binding.spTime.onItemSelectedListener = SpinnerListener()
@@ -86,11 +84,16 @@ class ScheduleEditFragment : Fragment(),DataPassListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        //ダイアログフラグメントオブジェクトを生成
-        val dialogFragment = ScheduleAllClearDialogFragment()
-        dialogFragment.setDataPassListener(this)
-        //ダイアログを表示
-        dialogFragment.show(childFragmentManager, "ScheduleAllClearDialogFragment")
+        if(item.toString() == "時間割を全て削除"){
+            //ダイアログフラグメントオブジェクトを生成
+            val dialogFragment = ScheduleAllClearDialogFragment()
+            dialogFragment.setDataPassListener(this)
+            //ダイアログを表示
+            dialogFragment.show(childFragmentManager, "ScheduleAllClearDialogFragment")
+        }else{
+            //戻るが押されたらアクティビティを終了
+            requireActivity().finish()
+        }
         return true
     }
     //スケジュールオールクリアダイアログフラグメントから送られてくる
@@ -105,6 +108,10 @@ class ScheduleEditFragment : Fragment(),DataPassListener {
             val stmt = db.compileStatement(sqlUpdate)
             //実行
             stmt.executeUpdateDelete()
+            //EditTextに入っている中身を削除する
+            binding.etRoom.setText("")
+            binding.etSubject.setText("")
+            binding.etThings.setText("")
         }else{
             //何も実装する予定はない
         }
@@ -117,7 +124,7 @@ class ScheduleEditFragment : Fragment(),DataPassListener {
             val time = timeTextTransform()
             val sqlSelect = "SELECT * FROM schedule WHERE weekday = '$weekday' AND time = '$time'"
             //DBオブジェクトを取得
-            val db = _helper.writableDatabase
+            val db = _helper.readableDatabase
             //SQL実行
             val cursor = db.rawQuery(sqlSelect, null)
             //DBから取得した値を格納する変数を用意
@@ -149,39 +156,29 @@ class ScheduleEditFragment : Fragment(),DataPassListener {
     private inner class ClickListener : View.OnClickListener {
         override fun onClick(view: View) {
             if(binding.etSubject.text.length <= 5 && binding.etRoom.text.length <= 5 && binding.etThings.text.length <= 15){
-                when(view.id){
-                    R.id.btRegist->{
-                        Toast.makeText(requireActivity(), "登録しました", Toast.LENGTH_LONG).show()
-                        //DBに保存するデータを取得
-                        //曜日と時間をDB用に変換
-                        val weekday = weekdayTextTransform()
-                        val time = timeTextTransform()
-                        //それぞれEditTextに入っている中身を取得
-                        val subject = binding.etSubject.text
-                        val room = binding.etRoom.text
-                        val things = binding.etThings.text
-                        //DBオブジェクトを取得
-                        val db = _helper.writableDatabase
-                        //DBに更新をかける
-                        val sqlUpdate = "UPDATE schedule SET subject = ?, room = ?, things = ? WHERE weekday = ? AND time = ?"
-                        //SQLを実行するオブジェクトを取得
-                        val stmt = db.compileStatement(sqlUpdate)
-                        //変数をバインド
-                        stmt.bindString(1, subject.toString())
-                        stmt.bindString(2, room.toString())
-                        stmt.bindString(3, things.toString())
-                        stmt.bindString(4, weekday)
-                        stmt.bindString(5, time)
-                        //実行
-                        stmt.executeUpdateDelete()
-                    }
-                    R.id.btBack->{
-                        //インテントオブジェクトを生成
-                        val intent2MainActivity = Intent(activity, MainActivity::class.java)
-                        //画面起動
-                        startActivity(intent2MainActivity)
-                    }
-                }
+                Toast.makeText(requireActivity(), "登録しました", Toast.LENGTH_LONG).show()
+                //DBに保存するデータを取得
+                //曜日と時間をDB用に変換
+                val weekday = weekdayTextTransform()
+                val time = timeTextTransform()
+                //それぞれEditTextに入っている中身を取得
+                val subject = binding.etSubject.text
+                val room = binding.etRoom.text
+                val things = binding.etThings.text
+                //DBオブジェクトを取得
+                val db = _helper.writableDatabase
+                //DBに更新をかける
+                val sqlUpdate = "UPDATE schedule SET subject = ?, room = ?, things = ? WHERE weekday = ? AND time = ?"
+                //SQLを実行するオブジェクトを取得
+                val stmt = db.compileStatement(sqlUpdate)
+                //変数をバインド
+                stmt.bindString(1, subject.toString())
+                stmt.bindString(2, room.toString())
+                stmt.bindString(3, things.toString())
+                stmt.bindString(4, weekday)
+                stmt.bindString(5, time)
+                //実行
+                stmt.executeUpdateDelete()
             }
             else{
                 Toast.makeText(requireActivity(), "文字数が多すぎます",Toast.LENGTH_LONG).show()

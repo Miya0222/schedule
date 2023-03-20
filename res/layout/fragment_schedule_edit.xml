@@ -17,7 +17,7 @@
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     <TextView
-        android:id="@+id/tvScheduleEdit"
+        android:id="@+id/tvTimeEdit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -136,39 +136,27 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/tvScheduleEdit"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeEdit"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     <TextView
-        android:id="@+id/tvWeekday"
+        android:id="@+id/tvFirst"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/tv_weekday"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvScheduleEdit" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeEdit" />
 
     <TextView
-        android:id="@+id/tvTime"
+        android:id="@+id/tvSecond"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/tv_time"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvWeekday" />
-
-    <Button
-        android:id="@+id/btBack"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/bt_back"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btRegist" />
+        app:layout_constraintTop_toBottomOf="@+id/tvFirst" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
